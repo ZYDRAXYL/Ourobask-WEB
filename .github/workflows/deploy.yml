@@ -1,0 +1,75 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# ให้ GITHUB_TOKEN มีสิทธิ์พอสำหรับ deploy ขึ้น Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# ปล่อยให้ deploy ทีละคิว โดยไม่ยกเลิกงานที่กำลังรันอยู่
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check that required files exist
+        run: |
+          for f in index.html assets/css/styles.css assets/js/main.js \
+                   assets/img/logo.svg assets/img/favicon.svg .nojekyll; do
+            if [ ! -e "$f" ]; then
+              echo "::error::ไม่พบไฟล์ที่ต้องมี: $f"
+              exit 1
+            fi
+          done
+          echo "ไฟล์ครบทุกตัว"
+
+      - name: Check that local assets referenced by index.html exist
+        run: |
+          status=0
+          # ดึงเฉพาะ href/src ที่เป็น path ในโปรเจกต์ (ไม่เอา URL ภายนอกและ anchor)
+          grep -oE '(href|src)="[^"#]+"' index.html \
+            | sed -E 's/^(href|src)="//; s/"$//' \
+            | grep -vE '^(https?:|mailto:|data:|//)' \
+            | sort -u \
+            | while read -r ref; do
+                if [ ! -e "$ref" ]; then
+                  echo "::error file=index.html::อ้างถึงไฟล์ที่ไม่มีอยู่: $ref"
+                  exit 1
+                fi
+              done || status=1
+          exit $status
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          # เปิด GitHub Pages ให้ repo นี้เองถ้ายังไม่ได้เปิด (ต้องใช้สิทธิ์ pages: write)
+          enablement: true
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

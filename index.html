@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ourobask — แอปเก็บงาน ไอเดีย และเควสเก็บเงิน พร้อมเตือนและปลุก</title>
+<meta name="description" content="Ourobask คือแอป Android สำหรับเก็บงาน โน้ต ไอเดีย กิจวัตร และเควสเก็บเงิน พร้อมการแจ้งเตือนและปลุกตามกำหนดส่ง ข้อมูลอยู่ในเครื่องทั้งหมด ใช้งานออฟไลน์ได้ ไม่มีบัญชีผู้ใช้ ไม่มีโฆษณา">
+<meta name="theme-color" content="#6750a4">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://ldktc.github.io/Web-Ourobask/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ourobask">
+<meta property="og:locale" content="th_TH">
+<meta property="og:title" content="Ourobask — งาน ไอเดีย และเงินเก็บ อยู่ในที่เดียว">
+<meta property="og:description" content="แอป Android สำหรับเก็บงาน โน้ต ไอเดีย กิจวัตร และเควสเก็บเงิน พร้อมเตือนและปลุกตามกำหนดส่ง ทำงานออฟไลน์ ข้อมูลอยู่ในเครื่องคุณ">
+<meta property="og:url" content="https://ldktc.github.io/Web-Ourobask/">
+<meta property="og:image" content="https://ldktc.github.io/Web-Ourobask/assets/img/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<script>
+  // ตั้งธีมก่อนวาดหน้า เพื่อไม่ให้จอกะพริบตอนโหลด
+  (function () {
+    try {
+      var saved = localStorage.getItem('ourobask-theme');
+      var dark = saved ? saved === 'dark'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    } catch (e) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Ourobask",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "Android",
+  "description": "แอปเก็บงาน โน้ต ไอเดีย กิจวัตร และเควสเก็บเงิน พร้อมการแจ้งเตือนและปลุกตามกำหนดส่ง เก็บข้อมูลในเครื่องด้วย SQLite ใช้งานออฟไลน์ได้",
+  "inLanguage": "th",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "downloadUrl": "https://github.com/LDKTC/App-Ourobask/releases/latest",
+  "softwareVersion": "1.3.0",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "THB" }
+}
+</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<header class="header" id="site-header">
+  <div class="wrap header__inner">
+    <a class="brand" href="#top">
+      <img class="brand__mark" src="assets/img/logo.svg" alt="" width="32" height="32">
+      <span>Ourobask</span>
+    </a>
+
+    <nav class="nav" id="site-nav" aria-label="เมนูหลัก">
+      <a href="#features">ความสามารถ</a>
+      <a href="#tasks">งาน</a>
+      <a href="#quest">เควสเก็บเงิน</a>
+      <a href="#ideas">กล่องไอเดีย</a>
+      <a href="#privacy">ข้อมูล</a>
+      <a href="#download">ดาวน์โหลด</a>
+      <a href="#faq">คำถามที่พบบ่อย</a>
+    </nav>
+
+    <div class="header__actions">
+      <button class="icon-btn theme-toggle" id="theme-toggle" type="button"
+              aria-label="สลับธีมสว่าง/มืด">
+        <svg class="icon-sun" width="21" height="21" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/>
+        </svg>
+        <svg class="icon-moon" width="21" height="21" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.7 8.7 0 1 0 10.8 10.8z"/>
+        </svg>
+      </button>
+
+      <button class="icon-btn nav-toggle" id="nav-toggle" type="button"
+              aria-expanded="false" aria-controls="site-nav" aria-label="เปิดเมนู">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- ══ Hero ══════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <span class="badge">
+          <span class="badge__dot" aria-hidden="true"></span>
+          <span>เวอร์ชันล่าสุด <span data-latest-version>v1.3.0</span> · ฟรีและโอเพนซอร์ส</span>
+        </span>
+
+        <h1 class="hero__title">
+          งาน ไอเดีย และเงินเก็บ<br>
+          <span class="accent">อยู่ในที่เดียว</span>
+        </h1>
+
+        <p class="hero__lead">
+          Ourobask คือแอป Android ที่รวม <strong>งาน</strong> · <strong>โฟลเดอร์โปรเจกต์</strong> ·
+          <strong>กิจวัตร</strong> · <strong>กล่องไอเดีย</strong> และ <strong>เควสเก็บเงิน</strong>
+          ไว้ด้วยกัน พร้อมแจ้งเตือนและปลุกตรงเวลา — ข้อมูลทั้งหมดอยู่ในเครื่องคุณ
+          ไม่ต้องสมัครสมาชิก ใช้งานออฟไลน์ได้เต็มรูปแบบ
+        </p>
+
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="#download">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3.5v12M7.5 11 12 15.5 16.5 11M4.5 19.5h15"/>
+            </svg>
+            ดาวน์โหลด APK
+          </a>
+          <a class="btn btn--outline" href="https://github.com/LDKTC/App-Ourobask"
+             target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+                       0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+                       -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+                       .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+                       -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27
+                       1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15
+                       0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2
+                       0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            ดูซอร์สโค้ด
+          </a>
+        </div>
+
+        <ul class="hero__meta">
+          <li>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5"/>
+            </svg>
+            ไม่ต้องมีบัญชีผู้ใช้
+          </li>
+          <li>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5"/>
+            </svg>
+            ไม่มีโฆษณา ไม่มีการติดตาม
+          </li>
+          <li>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5"/>
+            </svg>
+            ใช้ออฟไลน์ 100%
+          </li>
+        </ul>
+      </div>
+
+      <!-- ภาพจำลองหน้าจอ วาดด้วย HTML/CSS ตามหน้าแรกของแอปจริง -->
+      <div class="phone-stage" aria-hidden="true">
+        <div class="phone">
+          <div class="phone__screen">
+            <span class="phone__notch"></span>
+
+            <div class="screen__bar">
+              <span>9:41</span>
+              <span>▮▮▮ 84%</span>
+            </div>
+
+            <div class="screen__appbar">
+              <h3>หน้าแรก</h3>
+              <div class="screen__appbar-icons">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/>
+                </svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 2.6 7"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="screen__body">
+              <div class="screen__section">เลยกำหนดแล้ว</div>
+              <div class="mini-card mini-card--late">
+                <span class="mini-card__check"></span>
+                <div class="mini-card__body">
+                  <div class="mini-card__title">ส่งรายงานวิชาสถิติ</div>
+                  <div class="mini-card__meta">เมื่อวาน 23:59 · เลยมา 1 วัน</div>
+                </div>
+                <span class="mini-switch"></span>
+              </div>
+
+              <div class="screen__section">ครบกำหนดวันนี้</div>
+              <div class="mini-card mini-card--today">
+                <span class="mini-card__check"></span>
+                <div class="mini-card__body">
+                  <div class="mini-card__title">ประชุมทีมโปรเจกต์จบ</div>
+                  <div class="mini-card__meta">วันนี้ 15:00–16:30 · ปลุก</div>
+                </div>
+                <span class="mini-switch"></span>
+              </div>
+
+              <div class="screen__section">ภายใน 1 สัปดาห์</div>
+              <div class="mini-card">
+                <span class="mini-card__check"></span>
+                <div class="mini-card__body">
+                  <div class="mini-card__title">อ่านบทที่ 7–9</div>
+                  <div class="mini-card__meta">ศุกร์นี้ · ทั้งวัน</div>
+                </div>
+              </div>
+
+              <div class="screen__section">เควสเก็บเงิน</div>
+              <div class="mini-card mini-card--quest">
+                <span class="mini-card__check"></span>
+                <div class="mini-card__body">
+                  <div class="mini-card__title">เก็บเงินซื้อจอคอม</div>
+                  <div class="mini-card__meta">6,400 / 9,000 บาท · 71%</div>
+                  <div class="mini-bar"><span style="width:71%"></span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen__nav">
+              <span class="is-active">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.3 2.8 3.6 9.1a1 1 0 0 0-.36.77V20a1 1 0 0 0 1 1h4.5v-6h6.5v6h4.5a1 1 0 0 0 1-1V9.87a1 1 0 0 0-.36-.77L12.7 2.8a1 1 0 0 0-1.4 0z"/>
+                </svg>
+                หน้าแรก
+              </span>
+              <span>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                  <rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M8 2.8v3.4M16 2.8v3.4"/>
+                </svg>
+                ปฏิทิน
+              </span>
+              <span>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                  <path d="M3.5 7.5a2 2 0 0 1 2-2h3.2l1.8 2h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/>
+                </svg>
+                งาน
+              </span>
+              <span>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                  <path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 3.6 10.8c-.5.4-.8 1-.8 1.7H9.2c0-.7-.3-1.3-.8-1.7A6 6 0 0 1 12 3z"/>
+                </svg>
+                ไอเดีย
+              </span>
+              <span>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+                  <path d="M17 2.5 20.5 6 17 9.5M20.5 6H7a3.5 3.5 0 0 0-3.5 3.5M7 21.5 3.5 18 7 14.5M3.5 18H17a3.5 3.5 0 0 0 3.5-3.5"/>
+                </svg>
+                กิจวัตร
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Stats ═════════════════════════════════════════════════ -->
+  <section class="section section--alt" style="padding-block: clamp(40px,5vw,60px)">
+    <div class="wrap">
+      <ul class="stats reveal">
+        <li class="stat">
+          <div class="stat__num">5</div>
+          <div class="stat__label">โหมดใช้งานในแอปเดียว</div>
+        </li>
+        <li class="stat">
+          <div class="stat__num">9</div>
+          <div class="stat__label">ช่วงกำหนดส่งที่จัดกลุ่มให้</div>
+        </li>
+        <li class="stat">
+          <div class="stat__num">3</div>
+          <div class="stat__label">มุมมองปฏิทิน สัปดาห์/เดือน/ปี</div>
+        </li>
+        <li class="stat">
+          <div class="stat__num">0</div>
+          <div class="stat__label">ข้อมูลที่ส่งออกนอกเครื่อง</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ Features ══════════════════════════════════════════════ -->
+  <section class="section" id="features">
+    <div class="wrap">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">ความสามารถ</span>
+        <h2 class="section-title">ทุกอย่างที่ต้องจำ อยู่ในแอปเดียว</h2>
+        <p class="section-sub">
+          Ourobask ไม่ได้เป็นแค่ to-do list — มันรวมงานที่มีกำหนดส่ง โปรเจกต์ที่ต้องดูภาพรวม
+          กิจวัตรที่ทำซ้ำ ไอเดียที่ยังไม่พร้อมลงมือ และแผนเก็บเงิน เข้าไว้ในโครงเดียวกัน
+        </p>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 11.5 11.2 13.7 15.5 9.4"/>
+              <rect x="3.5" y="4.5" width="17" height="16" rx="3"/>
+            </svg>
+          </div>
+          <h3>งานที่ยืดหยุ่นเหมือนโน้ต</h3>
+          <p>ใส่แค่ชื่อเรื่องก็พอ วันและเวลาเป็นทางเลือกทั้งคู่ ไม่ต้องฝืนกรอกให้ครบ</p>
+          <ul class="card__list">
+            <li>ไม่ระบุวัน → เป็นงานไม่มีกำหนดส่ง</li>
+            <li>ระบุวันไม่ระบุเวลา → นับเป็นงานทั้งวัน</li>
+            <li>เลือกระดับความสำคัญและสีได้</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 6.5v6l3.5 2"/>
+              <path d="M3.6 12a8.4 8.4 0 1 0 2.8-6.3L3.5 8.2"/>
+              <path d="M3.5 4.2v4h4"/>
+            </svg>
+          </div>
+          <h3>ติ๊กเสร็จแล้วหายไปจริง ๆ</h3>
+          <p>งานที่ทำเสร็จจะหายจากทุกรายการทันที แล้วไปรวมอยู่ในหน้าประวัติที่เดียว</p>
+          <ul class="card__list">
+            <li>จัดกลุ่มตามวันที่ทำเสร็จ พร้อมเวลาที่ติ๊ก</li>
+            <li>กู้คืนงานกลับมาทำต่อได้ พร้อมตั้งเตือนใหม่ให้</li>
+            <li>เก็บไว้ 30 วันแล้วล้างอัตโนมัติ</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3.2a6.4 6.4 0 0 1 3.9 11.5c-.6.5-.9 1.2-.9 2H9c0-.8-.3-1.5-.9-2A6.4 6.4 0 0 1 12 3.2z"/>
+              <path d="M9.5 19.8h5M10.6 22h2.8"/>
+            </svg>
+          </div>
+          <h3>กล่องไอเดียที่หย่อนได้ไม่ต้องเปิด</h3>
+          <p>คิดอะไรออกก็หย่อนลงกล่องได้เลย ของข้างในจะไม่โผล่มากวนจนกว่าคุณจะพร้อมเปิด</p>
+          <ul class="card__list">
+            <li>ปุ่มสุ่มไอเดียหยิบมาทีละใบ ไม่ซ้ำใบเดิมติดกัน</li>
+            <li>เลือกหลายใบพร้อมกันเพื่อแปลงเป็นงาน</li>
+            <li>เปลี่ยนเป็นโน้ตในโฟลเดอร์โปรเจกต์ก็ได้</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2.8v18.4M16.2 6.6H9.9a2.6 2.6 0 0 0 0 5.2h4.2a2.6 2.6 0 0 1 0 5.2H7.5"/>
+            </svg>
+          </div>
+          <h3>เควสเก็บเงินที่เห็นความคืบหน้า</h3>
+          <p>ตั้งเป้าหมายเป็นจำนวนเงิน แล้วทยอยหยอดทีละครั้ง เห็นแถบความคืบหน้าทุกที่</p>
+          <ul class="card__list">
+            <li>เก็บครบเป้า เควสถูกทำเครื่องหมายเสร็จให้เอง</li>
+            <li>โฟลเดอร์และหน้าแรกรวมยอดของทุกเควสให้</li>
+            <li>เก็บประวัติการหยอดเงินพร้อมบันทึกช่วยจำ</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 8.6a6 6 0 1 0-12 0c0 6-2.3 7.7-2.3 7.7h16.6S18 14.6 18 8.6z"/>
+              <path d="M13.7 19.7a2 2 0 0 1-3.4 0"/>
+            </svg>
+          </div>
+          <h3>เตือนล่วงหน้า หรือปลุกให้ตื่น</h3>
+          <p>ตั้งเตือนได้หลายรายการต่อหนึ่งงาน แต่ละรายการเลือกได้ว่าจะเตือนเบา ๆ หรือปลุกเต็มเสียง</p>
+          <ul class="card__list">
+            <li>เลือกจาก dropdown เช่น ก่อน 1 ชม. / 1 วัน / 1 สัปดาห์</li>
+            <li>ปลุกใช้เสียงในระบบหรือไฟล์เสียงในเครื่องก็ได้</li>
+            <li>ปิด–เปิดการเตือนได้จากหน้าแรก โดยไม่ต้องลบทิ้ง</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 7.5a2.5 2.5 0 0 1 2.5-2.5h3l2 2.2h8A2.5 2.5 0 0 1 22 9.7v7.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 4 17.5z"/>
+            </svg>
+          </div>
+          <h3>โฟลเดอร์โปรเจกต์พร้อมโน้ต</h3>
+          <p>ครอบงานเป็นโปรเจกต์ เลือกไอคอนและสี เห็นความคืบหน้าและยอดเงินรวมในการ์ดเดียว</p>
+          <ul class="card__list">
+            <li>เก็บงาน กิจวัตร และโน้ตของโปรเจกต์ไว้หน้าเดียวกัน</li>
+            <li>ปักหมุดโน้ตสำคัญให้ลอยอยู่บนสุด</li>
+            <li>ลบโฟลเดอร์ได้ทั้งแบบเก็บงานไว้หรือลบไปด้วย</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Deep dives ════════════════════════════════════════════ -->
+  <section class="section section--alt" id="tasks">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">หน้าแรกและปฏิทิน</span>
+        <h2 class="section-title">รู้ว่าอะไรใกล้ถึงกำหนด โดยไม่ต้องเรียงเอง</h2>
+      </div>
+
+      <div class="split">
+        <div class="split__copy reveal">
+          <h3 class="split__title">จัดกลุ่มตามความใกล้ของกำหนดส่ง 9 ระดับ</h3>
+          <p class="split__text">
+            หน้าแรกเรียงงานให้อัตโนมัติตามว่าเหลือเวลาอีกเท่าไหร่
+            เปิดแอปมาก็เห็นทันทีว่าอะไรเลยกำหนด อะไรต้องทำวันนี้
+            และอะไรยังพอมีเวลา — ไม่ต้องมานั่งจัดลำดับเอง
+          </p>
+          <ul class="check-list">
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>กล่องรวมการแจ้งเตือนและปลุก</strong> อยู่บนสุด เปิด–ปิดทีละรายการได้จากตรงนั้นเลย</span>
+            </li>
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>สวิตช์บนรายการงาน</strong> คุมการเตือนทุกรายการของงานนั้นพร้อมกัน ไม่ต้องเข้าไปในหน้างาน</span>
+            </li>
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>งานที่ไม่มีกำหนดส่งและกิจวัตร</strong> อยู่ท้ายสุด ไม่มาแย่งที่งานเร่งด่วน</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="split__media reveal">
+          <div class="panel" aria-hidden="true">
+            <div class="panel__head">
+              <span class="panel__title">หน้าแรก · จัดกลุ่มอัตโนมัติ</span>
+              <span class="panel__hint">ภาพจำลอง</span>
+            </div>
+            <ul class="bucket-list">
+              <li class="bucket"><span class="bucket__dot" style="background:var(--error)"></span>เลยกำหนดแล้ว<span class="bucket__count">2</span></li>
+              <li class="bucket"><span class="bucket__dot" style="background:var(--warning)"></span>ครบกำหนดวันนี้<span class="bucket__count">3</span></li>
+              <li class="bucket"><span class="bucket__dot"></span>ภายใน 1 วัน<span class="bucket__count">1</span></li>
+              <li class="bucket"><span class="bucket__dot"></span>ภายใน 3 วัน<span class="bucket__count">4</span></li>
+              <li class="bucket"><span class="bucket__dot"></span>ภายใน 1 สัปดาห์<span class="bucket__count">6</span></li>
+              <li class="bucket"><span class="bucket__dot"></span>ภายใน 2 สัปดาห์<span class="bucket__count">2</span></li>
+              <li class="bucket"><span class="bucket__dot"></span>ภายใน 1 เดือน<span class="bucket__count">5</span></li>
+              <li class="bucket"><span class="bucket__dot"></span>มากกว่า 1 เดือน<span class="bucket__count">3</span></li>
+              <li class="bucket"><span class="bucket__dot" style="background:var(--outline)"></span>กิจวัตร + ไม่มีกำหนดส่ง<span class="bucket__count">8</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="split split--flip">
+        <div class="split__copy reveal">
+          <h3 class="split__title">ปฏิทินสามมุมมอง สัปดาห์ · เดือน · ปี</h3>
+          <p class="split__text">
+            มุมมองสัปดาห์เป็นตารางเวลาแบบตารางเรียน มีหลักชั่วโมง 00:00–23:00
+            งานที่เวลาทับกันจะแสดงเคียงข้างกัน มีแถวงานทั้งวันด้านบนและเส้นบอกเวลาปัจจุบัน
+            ส่วนมุมมองเดือนและปีย่อทุกอย่างลงเป็นตัวเลขจำนวนงานบนช่องวันที่
+          </p>
+          <ul class="check-list">
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>แตะวันไหนก็ได้เพื่อดูงานและกิจวัตรของวันนั้น</span>
+            </li>
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>แตะช่วงเวลาบนหัวปฏิทินเพื่อ<strong>กระโดดข้าม</strong>ไปสัปดาห์/เดือน/ปีที่ต้องการ</span>
+            </li>
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>กิจวัตรแสดงเป็นบล็อกซ้ำในทุกมุมมอง เห็นตารางจริงทั้งสัปดาห์</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="split__media reveal">
+          <div class="panel" aria-hidden="true">
+            <div class="panel__head">
+              <span class="panel__title">มุมมองสัปดาห์</span>
+              <span class="panel__hint">ภาพจำลอง</span>
+            </div>
+            <div class="week-grid">
+              <div></div>
+              <div class="week-grid__head">จ</div>
+              <div class="week-grid__head">อ</div>
+              <div class="week-grid__head">พ</div>
+              <div class="week-grid__head">พฤ</div>
+              <div class="week-grid__head">ศ</div>
+
+              <div class="week-grid__hour">09</div>
+              <div class="week-grid__cell has-event">เลข</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell has-event">เลข</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell has-event alt">ยิม</div>
+
+              <div class="week-grid__hour">11</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell has-event alt">แล็บ</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell has-event alt">แล็บ</div>
+              <div class="week-grid__cell"></div>
+
+              <div class="week-grid__hour">13</div>
+              <div class="week-grid__cell has-event">อังกฤษ</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell has-event">อังกฤษ</div>
+              <div class="week-grid__cell"></div>
+
+              <div class="week-grid__hour">15</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell has-event">ประชุม</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell"></div>
+
+              <div class="week-grid__hour">17</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell has-event alt">วิ่ง</div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell"></div>
+              <div class="week-grid__cell has-event alt">วิ่ง</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Quest ═════════════════════════════════════════════════ -->
+  <section class="section" id="quest">
+    <div class="wrap">
+      <div class="split">
+        <div class="split__copy reveal">
+          <span class="eyebrow">เควสเก็บเงิน</span>
+          <h2 class="split__title" style="font-size:clamp(1.7rem,3.4vw,2.4rem)">
+            เป้าหมายเก็บเงิน ที่ทำงานเหมือนงานหนึ่งชิ้น
+          </h2>
+          <p class="split__text">
+            เควสคืองานอีกประเภทที่ต้องระบุ<strong>จำนวนเงินเป้าหมาย</strong>
+            แล้วทยอยหยอดเงินเข้าไปทีละครั้ง (ถอนออกก็ได้)
+            ผูกกับ<strong>กิจวัตร</strong>ได้ด้วย — ระบุยอดต่อรอบ ถึงวันแล้วแอปจะเตือน
+            และกดบันทึกเงินเข้าเควสได้จากรายการกิจวัตรเลย พร้อมประเมินว่าจะครบเป้าในอีกกี่เดือน
+          </p>
+          <ul class="check-list">
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>แถบความคืบหน้าอยู่บนรายการงาน เห็นยอดเก็บได้ / เป้าหมาย และเปอร์เซ็นต์</span>
+            </li>
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>โฟลเดอร์งานรวมยอดของทุกเควสข้างในให้ และหน้าแรกรวมยอดทั้งแอป</span>
+            </li>
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>เก็บครบเป้าเมื่อไหร่ ทำเครื่องหมายเสร็จให้เอง — ลบรายการเงินออกก็ย้อนกลับให้</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="split__media reveal">
+          <div class="panel" aria-hidden="true">
+            <div class="panel__head">
+              <span class="panel__title">เควสในโฟลเดอร์ "ของอยากได้"</span>
+              <span class="panel__hint">ภาพจำลอง</span>
+            </div>
+
+            <div class="quest">
+              <div class="quest__row">
+                <span class="quest__name">จอคอม 27"</span>
+                <span class="quest__pct">71%</span>
+              </div>
+              <div class="quest__bar"><span style="width:71%"></span></div>
+              <div class="quest__meta">6,400 / 9,000 บาท · หยอดครั้งล่าสุด 3 วันก่อน</div>
+            </div>
+
+            <div class="quest">
+              <div class="quest__row">
+                <span class="quest__name">ทริปเชียงใหม่</span>
+                <span class="quest__pct">45%</span>
+              </div>
+              <div class="quest__bar"><span style="width:45%"></span></div>
+              <div class="quest__meta">6,750 / 15,000 บาท · กิจวัตรหยอด 1,500 บาท ทุกวันที่ 25</div>
+            </div>
+
+            <div class="quest">
+              <div class="quest__row">
+                <span class="quest__name">เงินสำรองฉุกเฉิน</span>
+                <span class="quest__pct">100%</span>
+              </div>
+              <div class="quest__bar"><span style="width:100%"></span></div>
+              <div class="quest__meta">30,000 / 30,000 บาท · ครบเป้าแล้ว ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Ideas ═════════════════════════════════════════════════ -->
+  <section class="section section--alt" id="ideas">
+    <div class="wrap">
+      <div class="split split--flip">
+        <div class="split__copy reveal">
+          <span class="eyebrow">กล่องไอเดีย</span>
+          <h2 class="split__title" style="font-size:clamp(1.7rem,3.4vw,2.4rem)">
+            หย่อนไอเดียทิ้งไว้ก่อน ค่อยกลับมาเปิด
+          </h2>
+          <p class="split__text">
+            ตอนกล่องปิดอยู่ ปุ่ม <strong>หย่อนไอเดีย</strong> จะอยู่กลางจอ
+            เขียนอะไรลงไปก็ได้โดยไม่ต้องเห็นของที่อยู่ข้างใน — ไม่มีกองงานค้างมาให้รู้สึกผิด
+            พอพร้อมแล้วค่อยกดเปิดกล่อง เลือกทีละหลายใบเพื่อย้ายไปเป็นงานพร้อมโฟลเดอร์และกำหนดส่ง
+          </p>
+          <ul class="check-list">
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>ปุ่มสุ่มไอเดีย</strong> หยิบขึ้นมาหนึ่งใบจากกองทั้งหมด กดได้ทั้งตอนกล่องเปิดและปิด และจะไม่ได้ใบเดิมซ้ำติดกัน</span>
+            </li>
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>ใบที่สุ่มได้เปิดในแผ่น<strong>อ่านอย่างเดียว</strong> เลือกได้ว่าจะเก็บกลับเข้ากล่อง หรือสร้างเป็นงาน/โน้ต</span>
+            </li>
+            <li>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>โน้ตในโฟลเดอร์งานปักหมุดได้ เลือกสีได้ และไม่โผล่ไปกวนหน้าแรกหรือปฏิทิน</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="split__media reveal">
+          <div class="panel" aria-hidden="true">
+            <div class="panel__head">
+              <span class="panel__title">ในกล่องไอเดีย</span>
+              <span class="panel__hint">ภาพจำลอง</span>
+            </div>
+            <div class="idea-box">
+              <div class="idea-note">
+                <span class="idea-note__pin">📌 ปักหมุด</span>
+                ลองเขียนสรุปหนังสือที่อ่านจบเป็นโพสต์สั้น ๆ ดู
+              </div>
+              <div class="idea-note">
+                ทำสเปรดชีตรวมค่าใช้จ่ายรายเดือน แล้วดูว่าตัดอะไรออกได้บ้าง
+              </div>
+              <div class="idea-note">
+                ชวนเพื่อนไปตลาดนัดเสาร์นี้ ถ่ายรูปเก็บไว้ทำอัลบั้ม
+              </div>
+              <div class="idea-note">
+                หัดทำขนมปังโฮมเมด — หาสูตรที่ไม่ต้องใช้เครื่องนวด
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Privacy / data ════════════════════════════════════════ -->
+  <section class="section" id="privacy">
+    <div class="wrap">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">ข้อมูลของคุณ</span>
+        <h2 class="section-title">อยู่ในเครื่องคุณ และย้ายออกได้เสมอ</h2>
+        <p class="section-sub">
+          Ourobask ไม่มีเซิร์ฟเวอร์ ไม่มีบัญชีผู้ใช้ และไม่เก็บสถิติการใช้งาน
+          ทุกอย่างเก็บด้วย SQLite ในเครื่อง ใช้งานได้เต็มรูปแบบแม้ไม่ต่ออินเทอร์เน็ต
+        </p>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2.8 4.5 5.9v5.4c0 4.6 3.1 8.5 7.5 9.9 4.4-1.4 7.5-5.3 7.5-9.9V5.9z"/>
+              <path d="M9.2 12.1 11.3 14.2 15 10.5"/>
+            </svg>
+          </div>
+          <h3>ออฟไลน์เต็มรูปแบบ</h3>
+          <p>
+            ทุกฟีเจอร์ทำงานได้โดยไม่ต้องต่อเน็ต สิทธิ์ <code>INTERNET</code>
+            ถูกใช้อย่างเดียวเพื่อตรวจและดาวน์โหลดรีลีสใหม่จาก GitHub เท่านั้น
+          </p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3.2v11M8 10.7 12 14.7 16 10.7"/>
+              <path d="M4.5 17v2.3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5V17"/>
+            </svg>
+          </div>
+          <h3>Export / Import เป็น JSON</h3>
+          <p>
+            สำรองข้อมูลเป็นไฟล์ JSON เก็บไว้เองหรือแชร์ไปแอปอื่น
+            ตอนนำเข้าเลือกได้ว่าจะ <strong>รวม</strong> กับของเดิมหรือ <strong>เขียนทับ</strong>
+            แล้วแอปจะตั้งการเตือนใหม่ให้อัตโนมัติ
+          </p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2.6 20.5 7v10L12 21.4 3.5 17V7z"/>
+              <path d="M12 11.8 20.5 7M12 11.8v9.6M12 11.8 3.5 7"/>
+            </svg>
+          </div>
+          <h3>อัปเดตในแอปได้เลย</h3>
+          <p>
+            ตรวจรีลีสใหม่จาก GitHub Releases โดยตรง ดาวน์โหลด APK
+            ที่ตรงกับสถาปัตยกรรมเครื่องพร้อมแถบความคืบหน้า
+            แล้วส่งให้ตัวติดตั้งของ Android ต่อในแอปเลย
+          </p>
+        </article>
+      </div>
+
+      <div class="note reveal" style="max-width:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.2"/><path d="M12 11v5.2M12 7.7h.01"/>
+        </svg>
+        <span>
+          ไฟล์สำรองเวอร์ชันปัจจุบันเป็น format v3 ซึ่งรวมโน้ตของโฟลเดอร์งานไว้ด้วย
+          ไฟล์เก่า (v1/v2) ยังนำเข้าได้ตามปกติ และฐานข้อมูลเดิมจะถูกอัปเกรดให้เองเมื่อเปิดแอปเวอร์ชันใหม่
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Download ══════════════════════════════════════════════ -->
+  <section class="section section--alt" id="download">
+    <div class="wrap">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">ดาวน์โหลด</span>
+        <h2 class="section-title">ติดตั้งบน Android ได้ทันที</h2>
+        <p class="section-sub">
+          APK ของทุกเวอร์ชันสร้างอัตโนมัติด้วย GitHub Actions และเผยแพร่ที่หน้า Releases
+          ถ้าไม่แน่ใจว่าเครื่องเป็นสถาปัตยกรรมไหน เลือกไฟล์รวมได้เลย
+        </p>
+      </div>
+
+      <div class="download-panel reveal">
+        <div class="download-panel__head">
+          <span class="release-tag">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12.6 2.8H20a1.2 1.2 0 0 1 1.2 1.2v7.4a1.2 1.2 0 0 1-.35.85l-8.4 8.4a1.2 1.2 0 0 1-1.7 0l-7.4-7.4a1.2 1.2 0 0 1 0-1.7l8.4-8.4a1.2 1.2 0 0 1 .85-.35z"/>
+              <path d="M17 7.4h.01"/>
+            </svg>
+            <span data-latest-version>v1.3.0</span>
+          </span>
+          <span class="release-note" data-latest-date>รีลีสล่าสุดจาก GitHub Releases</span>
+          <a class="btn btn--tonal btn--sm" href="https://github.com/LDKTC/App-Ourobask/releases"
+             target="_blank" rel="noopener">ดูรีลีสทั้งหมด</a>
+        </div>
+
+        <ul class="abi-list">
+          <li class="abi">
+            <div class="abi__info">
+              <div class="abi__name">
+                ไฟล์รวมทุกสถาปัตยกรรม
+                <span class="abi__pill">แนะนำ</span>
+              </div>
+              <div class="abi__desc">ใช้ได้กับทุกเครื่อง ถ้าไม่แน่ใจให้เลือกอันนี้</div>
+            </div>
+            <span class="abi__size" data-asset-size="universal">~58 MB</span>
+            <a class="btn btn--primary btn--sm" data-asset-url="universal"
+               href="https://github.com/LDKTC/App-Ourobask/releases/latest">ดาวน์โหลด</a>
+          </li>
+
+          <li class="abi">
+            <div class="abi__info">
+              <div class="abi__name">arm64-v8a</div>
+              <div class="abi__desc">เครื่อง Android 64-bit ส่วนใหญ่ในปัจจุบัน — ไฟล์เล็กกว่า</div>
+            </div>
+            <span class="abi__size" data-asset-size="arm64-v8a">~22 MB</span>
+            <a class="btn btn--outline btn--sm" data-asset-url="arm64-v8a"
+               href="https://github.com/LDKTC/App-Ourobask/releases/latest">ดาวน์โหลด</a>
+          </li>
+
+          <li class="abi">
+            <div class="abi__info">
+              <div class="abi__name">armeabi-v7a</div>
+              <div class="abi__desc">เครื่อง 32-bit รุ่นเก่า</div>
+            </div>
+            <span class="abi__size" data-asset-size="armeabi-v7a">~19 MB</span>
+            <a class="btn btn--outline btn--sm" data-asset-url="armeabi-v7a"
+               href="https://github.com/LDKTC/App-Ourobask/releases/latest">ดาวน์โหลด</a>
+          </li>
+
+          <li class="abi">
+            <div class="abi__info">
+              <div class="abi__name">x86_64</div>
+              <div class="abi__desc">อีมูเลเตอร์และเครื่อง x86</div>
+            </div>
+            <span class="abi__size" data-asset-size="x86_64">~23 MB</span>
+            <a class="btn btn--outline btn--sm" data-asset-url="x86_64"
+               href="https://github.com/LDKTC/App-Ourobask/releases/latest">ดาวน์โหลด</a>
+          </li>
+        </ul>
+
+        <ol class="install-steps">
+          <li><span>ดาวน์โหลดไฟล์ <code>.apk</code> ลงเครื่อง Android</span></li>
+          <li><span>เปิดไฟล์ แล้วอนุญาต "ติดตั้งแอปที่ไม่รู้จัก" ให้เบราว์เซอร์หรือแอปจัดการไฟล์ที่ใช้เปิด</span></li>
+          <li><span>กดติดตั้ง แล้วอนุญาตการแจ้งเตือนและการตั้งปลุกแบบตรงเวลาเมื่อแอปขอ</span></li>
+          <li><span>เวอร์ชันถัดไปอัปเดตทับได้จากในแอปเลย ที่ <strong>ตั้งค่า → ตรวจสอบอัปเดตแอป</strong></span></li>
+        </ol>
+
+        <div class="note">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9.2"/><path d="M12 11v5.2M12 7.7h.01"/>
+          </svg>
+          <span>
+            APK เหล่านี้เซ็นด้วย debug keystore ที่คงที่ (commit ไว้ในโปรเจกต์)
+            เพื่อให้ทุกเวอร์ชันอัปเดตทับกันได้โดยไม่เจอ "แพ็กเกจขัดแย้งกัน" —
+            จึงยังไม่ใช่ APK ที่เซ็นสำหรับขึ้น Play Store
+            หากต้องการเซ็นด้วย key ของตัวเอง ให้ใส่ <code>android/key.properties</code> แล้ว build ใหม่
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FAQ ═══════════════════════════════════════════════════ -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">คำถามที่พบบ่อย</span>
+        <h2 class="section-title">เรื่องที่คนถามบ่อย</h2>
+      </div>
+
+      <div class="faq">
+        <details class="reveal">
+          <summary>มีเวอร์ชัน iOS หรือเว็บไหม</summary>
+          <div class="faq__body">
+            ตอนนี้เผยแพร่เฉพาะ Android เท่านั้น ตัวแอปเขียนด้วย Flutter
+            และมีโค้ดฝั่ง iOS อยู่ในโปรเจกต์ แต่ยังไม่มีรีลีสอย่างเป็นทางการ
+            เพราะฟีเจอร์ปลุกและติดตั้งอัปเดตในแอปพึ่งความสามารถเฉพาะของ Android อยู่มาก
+          </div>
+        </details>
+
+        <details class="reveal">
+          <summary>ข้อมูลซิงก์ข้ามเครื่องได้ไหม</summary>
+          <div class="faq__body">
+            ไม่มีการซิงก์อัตโนมัติ เพราะแอปไม่มีเซิร์ฟเวอร์และไม่มีบัญชีผู้ใช้
+            ถ้าจะย้ายเครื่อง ให้ Export เป็นไฟล์ JSON จากเครื่องเดิม
+            แล้ว Import บนเครื่องใหม่ โดยเลือกได้ว่าจะรวมข้อมูลหรือเขียนทับ
+          </div>
+        </details>
+
+        <details class="reveal">
+          <summary>ทำไมงานที่ติ๊กเสร็จแล้วถึงหายไปหมด</summary>
+          <div class="faq__body">
+            ตั้งใจให้เป็นแบบนั้น — งานที่เสร็จแล้วจะไม่แสดงในหน้าแรก ปฏิทิน หรือโฟลเดอร์งานอีก
+            เพื่อให้รายการเหลือแต่สิ่งที่ยังต้องทำจริง ๆ งานที่เสร็จไปอยู่ในหน้า
+            <strong>ประวัติ</strong> (ไอคอนนาฬิกาย้อนกลับบนแถบด้านบนของหน้าแรก)
+            จัดกลุ่มตามวันที่ทำเสร็จ กู้คืนกลับมาทำต่อได้ และจะถูกล้างอัตโนมัติหลังครบ 30 วัน
+            ถ้าติ๊กพลาด กด "เลิกทำ" บนแถบข้อความที่ขึ้นมาได้ทันที
+          </div>
+        </details>
+
+        <details class="reveal">
+          <summary>การปลุกใช้เสียงอะไรได้บ้าง</summary>
+          <div class="faq__body">
+            เลือกได้สองทาง — เสียงมาตรฐานของระบบ Android
+            หรือไฟล์เสียงในเครื่องของคุณเอง ไฟล์ที่เลือกจะถูกคัดลอกเข้าโฟลเดอร์ของแอป
+            และแปลงเป็น <code>content://</code> ผ่าน FileProvider เพื่อให้ระบบแจ้งเตือนอ่านได้
+            ลองฟังก่อนใช้จริงได้ด้วย โดยเล่นที่ระดับเสียงของ alarm
+          </div>
+        </details>
+
+        <details class="reveal">
+          <summary>การเตือนไม่ขึ้น ต้องตั้งค่าอะไรเพิ่ม</summary>
+          <div class="faq__body">
+            ตรวจว่าอนุญาตสิทธิ์ <code>POST_NOTIFICATIONS</code> และ
+            "การปลุกและการเตือนที่แม่นยำ" (<code>SCHEDULE_EXACT_ALARM</code>) ให้แอปแล้ว
+            และปิดการประหยัดแบตเตอรี่แบบเข้มงวดสำหรับ Ourobask
+            เพราะผู้ผลิตบางรายจะหยุดงานที่ตั้งเวลาไว้ของแอปที่อยู่เบื้องหลัง
+          </div>
+        </details>
+
+        <details class="reveal">
+          <summary>โน้ตกับไอเดียต่างกันยังไง</summary>
+          <div class="faq__body">
+            <strong>ไอเดีย</strong> อยู่ในกล่องไอเดีย เป็นของที่ยังไม่ผูกกับอะไร
+            หยิบมาสุ่มหรือแปลงเป็นงานทีหลังได้ ส่วน <strong>โน้ต</strong>
+            อยู่ในโฟลเดอร์งานเท่านั้น ใช้เก็บสรุปประชุม ลิงก์ หรือสิ่งที่ต้องจำของโปรเจกต์นั้น
+            และจะไม่โผล่ที่หน้าแรก ปฏิทิน หรือหน้ารายการงาน — ลบโฟลเดอร์แล้วโน้ตข้างในหายตามไปด้วยเสมอ
+          </div>
+        </details>
+
+        <details class="reveal">
+          <summary>โปรเจกต์นี้เปิดให้ร่วมพัฒนาไหม</summary>
+          <div class="faq__body">
+            ได้เลย ซอร์สโค้ดของแอปอยู่ที่
+            <a href="https://github.com/LDKTC/App-Ourobask" target="_blank" rel="noopener"><strong>LDKTC/App-Ourobask</strong></a>
+            และของเว็บนี้อยู่ที่
+            <a href="https://github.com/LDKTC/Web-Ourobask" target="_blank" rel="noopener"><strong>LDKTC/Web-Ourobask</strong></a>
+            เปิด issue หรือส่ง pull request ได้ตามสะดวก
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ═══════════════════════════════════════════════════ -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2>เริ่มเก็บงานให้เป็นระเบียบตั้งแต่วันนี้</h2>
+        <p>
+          ดาวน์โหลดฟรี ไม่ต้องสมัครสมาชิก ไม่มีโฆษณา
+          และถ้าวันหนึ่งอยากเลิกใช้ ก็ Export ข้อมูลออกไปได้ทั้งหมด
+        </p>
+        <div class="cta__actions">
+          <a class="btn btn--primary" href="#download">ดาวน์โหลด <span data-latest-version>v1.3.0</span></a>
+          <a class="btn btn--outline" href="https://github.com/LDKTC/App-Ourobask"
+             target="_blank" rel="noopener">อ่านซอร์สโค้ดบน GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__about-col">
+        <a class="brand" href="#top">
+          <img class="brand__mark" src="assets/img/logo.svg" alt="" width="32" height="32">
+          <span>Ourobask</span>
+        </a>
+        <p class="footer__about">
+          แอป Android สำหรับเก็บงาน โน้ต ไอเดีย กิจวัตร และเควสเก็บเงิน
+          พร้อมการแจ้งเตือนและปลุกตามกำหนดส่ง สร้างด้วย Flutter และ SQLite
+        </p>
+      </div>
+
+      <div>
+        <h4>โปรเจกต์</h4>
+        <ul class="footer__links">
+          <li><a href="https://github.com/LDKTC/App-Ourobask" target="_blank" rel="noopener">ซอร์สโค้ดของแอป</a></li>
+          <li><a href="https://github.com/LDKTC/App-Ourobask/releases" target="_blank" rel="noopener">รีลีสทั้งหมด</a></li>
+          <li><a href="https://github.com/LDKTC/App-Ourobask/issues" target="_blank" rel="noopener">แจ้งปัญหา / ขอฟีเจอร์</a></li>
+          <li><a href="https://github.com/LDKTC/Web-Ourobask" target="_blank" rel="noopener">ซอร์สโค้ดของเว็บนี้</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>ในหน้านี้</h4>
+        <ul class="footer__links">
+          <li><a href="#features">ความสามารถ</a></li>
+          <li><a href="#quest">เควสเก็บเงิน</a></li>
+          <li><a href="#privacy">ข้อมูลและการสำรอง</a></li>
+          <li><a href="#download">ดาวน์โหลด</a></li>
+          <li><a href="#faq">คำถามที่พบบ่อย</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> LDKTC · เผยแพร่ภายใต้สัญญาอนุญาต Apache-2.0</span>
+      <span>สร้างด้วย Flutter · โฮสต์บน GitHub Pages</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
