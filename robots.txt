@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ldktc.github.io/Web-Ourobask/sitemap.xml
