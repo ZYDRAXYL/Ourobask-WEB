@@ -1,9 +1,9 @@
-# Web-Ourobask
+# Ourobask-WEB
 
-เว็บแนะนำ **[Ourobask](https://github.com/LDKTC/App-Ourobask)** — แอป Android สำหรับเก็บงาน โน้ต
+เว็บแนะนำ **[Ourobask](https://github.com/ZYDRAXYL/Ourobask-APP)** — แอป Android สำหรับเก็บงาน โน้ต
 ไอเดีย กิจวัตร และเควสเก็บเงิน พร้อมการแจ้งเตือนและปลุกตามกำหนดส่ง
 
-🔗 **[ldktc.github.io/Web-Ourobask](https://ldktc.github.io/Web-Ourobask/)**
+🔗 **[zydraxyl.github.io/Ourobask-WEB](https://zydraxyl.github.io/Ourobask-WEB/)**
 
 ## โครงสร้าง
 
@@ -35,7 +35,7 @@ python3 -m http.server 8000
 ## ธีมและสีของเว็บ
 
 โทนสีอิงจากธีมจริงของแอป — Material 3 ที่ generate จาก seed `#6750A4`
-(ค่าเดียวกับ `OurobaskApp.seed` ใน `lib/main.dart` ของ App-Ourobask)
+(ค่าเดียวกับ `OurobaskApp.seed` ใน `lib/main.dart` ของ Ourobask-APP)
 token ทั้งหมดอยู่ที่ `:root` และ `:root[data-theme="dark"]` ใน `assets/css/styles.css`
 
 ธีมเริ่มต้นตามค่าของระบบผู้ใช้ และจำค่าที่ผู้ใช้เลือกเองไว้ใน `localStorage`
@@ -44,12 +44,12 @@ token ทั้งหมดอยู่ที่ `:root` และ `:root[data-t
 ## เวอร์ชันและลิงก์ดาวน์โหลด
 
 ตอนเปิดหน้า `assets/js/main.js` จะเรียก
-`https://api.github.com/repos/LDKTC/App-Ourobask/releases/latest`
+`https://api.github.com/repos/ZYDRAXYL/Ourobask-APP/releases/latest`
 เพื่ออัปเดตหมายเลขเวอร์ชัน วันที่เผยแพร่ ขนาดไฟล์ และลิงก์ดาวน์โหลดของแต่ละสถาปัตยกรรม
 
 ถ้าเรียก API ไม่สำเร็จ (ออฟไลน์ หรือโดน rate limit) หน้าเว็บยังใช้งานได้ตามปกติ —
 จะแสดงค่าที่เขียนไว้ใน HTML และลิงก์ดาวน์โหลดจะชี้ไปที่หน้า
-[releases/latest](https://github.com/LDKTC/App-Ourobask/releases/latest) แทน
+[releases/latest](https://github.com/ZYDRAXYL/Ourobask-APP/releases/latest) แทน
 จึงไม่ต้องแก้เว็บทุกครั้งที่ปล่อยเวอร์ชันใหม่
 
 ## Deploy
