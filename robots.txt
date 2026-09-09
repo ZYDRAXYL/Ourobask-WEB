@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ldktc.github.io/Web-Ourobask/sitemap.xml
+Sitemap: https://zydraxyl.github.io/Ourobask-WEB/sitemap.xml

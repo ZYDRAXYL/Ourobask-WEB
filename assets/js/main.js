@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  var REPO = 'LDKTC/App-Ourobask';
+  var REPO = 'ZYDRAXYL/Ourobask-APP';
   var THEME_KEY = 'ourobask-theme';
 
   /* ── ธีมสว่าง/มืด ───────────────────────────────────────────── */
